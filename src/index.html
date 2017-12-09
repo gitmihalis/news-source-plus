@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header>
+      <h1>Source++</h1>
+    </header>
+    <main>
+      <div class="controls">
+        <button class="btn" id="open-docx">Open</button>
+      </div>
+
+      <div class="container">
+        <p id="output"></p>
+      </div>
+
+    </main>
+    <footer>
+      <p>
+        <!-- All of the Node.js APIs are available in this renderer process. -->
+        Using Node.js <script>document.write(process.versions.node)</script>,
+        Chromium <script>document.write(process.versions.chrome)</script>,
+        and Electron <script>document.write(process.versions.electron)</script>.
+      </p> 
+    </footer>
+
+
+
+
+    <script>
+      // You can also require other files to run in this process
+      require('./renderer.js')
+    </script>
+  </body>
+</html>
