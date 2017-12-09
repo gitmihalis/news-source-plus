@@ -8,6 +8,10 @@ document.getElementById('open-docx').addEventListener('click', e => {
   ipc.send('open:docx')
 })
 
-ipc.on('docx:display', (evt, docx) => {
-  document.getElementById('output').innerHTML = docx.toString()
+// Render parsed HTML from docx
+ipc.on('docx:display', (evt, html) => {
+  document.getElementById('output').innerText = html
 })
+
+
+
