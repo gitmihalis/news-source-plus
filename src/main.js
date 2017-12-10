@@ -91,17 +91,17 @@ function formatMenuTemplateForStack(stack) {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready',_ => {
-
+  let trayImage = nativeImage.createFromPath(path.join(__dirname, '24x24.png'))
   let stack = []
-  const trayIcon = path.join(__dirname, 'app.png')
-  const nImage = nativeImage.createFromPath(trayIcon)
-  tray = new Tray(nImage)
+  tray = new Tray(trayImage)
   tray.setContextMenu(Menu.buildFromTemplate([{ label: '<Empty>', enabled: false }]))
 
   checkClipboardForChanges(clipboard, text => {
     stack = addToStack(text, stack)
     tray.setContextMenu(Menu.buildFromTemplate(formatMenuTemplateForStack(stack)))
   })
+
+
   createWindow()
 })
 

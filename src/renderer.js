@@ -44,10 +44,6 @@ copyBtn.addEventListener('click', e => {
   }
 })
 
-collapseBtn.addEventListener('click', e => {
-  ipc.send('view:collapse')
-})
-
 
 // Render parsed HTML from docx
 ipc.on('docx:display', (event, html) => {
