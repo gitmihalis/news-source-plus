@@ -6,7 +6,9 @@ const BrowserWindow = electron.BrowserWindow
 const app = electron.app
 const ipc = electron.ipcMain
 const dialog = electron.dialog
-
+const Tray = electron.Tray
+const Menu = electron.Menu
+const clipboard = electron.clipboard
 // *************** Node API ****************
 const path = require('path')
 const url = require('url')
@@ -18,33 +20,13 @@ const mammoth = require('mammoth')
 const cleaner = require('clean-html')
 
 
-
+const STACK_SIZE = 7
+const ITEM_MAX_LENGTH = 24
 // *************** App *********************
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
+
 let mainWindow
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
-
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow()
-  }
-})
 
 function createWindow () {
   // Create the browser window.
@@ -69,6 +51,74 @@ function createWindow () {
     mainWindow = null
   })
 }
+
+function checkClipboardForChanges(clipboard, onChange) {
+  let cache = clipboard.readText()
+  let latest
+  setInterval(_ => {
+    latest = clipboard.readText()
+    if(latest !== cache) {
+      cache = latest
+      onChange(cache)
+    }
+  }, 1000)
+}
+
+function addToStack(item, stack) {
+  return [item].concat(stack.length >= STACK_SIZE ? stack.slice(0, stack.length - 1) : stack )
+}
+
+function formatItem(item) {
+  return item && item.length > ITEM_MAX_LENGTH
+    ? item.substr(0, ITEM_MAX_LENGTH) + '...'
+    : item
+}
+
+function formatMenuTemplateForStack(stack) {
+  return stack.map((item, i) => {
+    return {
+      label: formatItem(item).toString(),
+      click: _ => clipboard.writeText(item)
+    }
+  })
+}
+
+
+// *************** Listeners ****************************
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready',_ => {
+  let stack = []
+  let tray = new Tray(path.join('src', 'news-24.png'))
+  tray.setContextMenu(Menu.buildFromTemplate([{ label: '<Empty>', enabled: false }]))
+
+  checkClipboardForChanges(clipboard, text => {
+    stack = addToStack(text, stack)
+    tray.setContextMenu(Menu.buildFromTemplate(formatMenuTemplateForStack(stack)))
+  })
+
+
+  createWindow()
+})
+
+// Quit when all windows are closed.
+app.on('window-all-closed', function () {
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('activate', function () {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow()
+  }
+})
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
