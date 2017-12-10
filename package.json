@@ -1,18 +1,22 @@
 {
-  "name": "source-plus-plus",
+  "name": "news-source-plus",
   "version": "1.0.0",
-  "description": "",
+  "description": "helper to convert docx to html for use in news site.",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf Source-News-Plus-* && electron-packager . --platform=darwin,win32 --arch=x64 --icon=app"
   },
   "author": "mihalis fthenos",
   "license": "Apache-2.0",
+  "dependencies": {
+    "clean-html": "^1.5.0",
+    "html-minifier": "^3.5.7",
+    "mammoth": "^1.4.3"
+  },
   "devDependencies": {
     "electron": "^1.7.9",
-    "html-minifier": "^3.5.7",
-    "clean-html": "^1.5.0",
-    "mammoth": "^1.4.3"
+    "electron-packager": "^10.1.0",
+    "rimraf": "^2.6.2"
   }
 }

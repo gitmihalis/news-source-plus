@@ -9,6 +9,7 @@ const dialog = electron.dialog
 const Tray = electron.Tray
 const Menu = electron.Menu
 const clipboard = electron.clipboard
+const nativeImage = electron.nativeImage
 // *************** Node API ****************
 const path = require('path')
 const url = require('url')
@@ -26,7 +27,8 @@ const ITEM_MAX_LENGTH = 24
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 
-let mainWindow
+let mainWindow = null
+let tray = null
 
 function createWindow () {
   // Create the browser window.
@@ -83,23 +85,23 @@ function formatMenuTemplateForStack(stack) {
   })
 }
 
-
 // *************** Listeners ****************************
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready',_ => {
+
   let stack = []
-  let tray = new Tray(path.join('src', 'news-24.png'))
+  const trayIcon = path.join(__dirname, 'app.png')
+  const nImage = nativeImage.createFromPath(trayIcon)
+  tray = new Tray(nImage)
   tray.setContextMenu(Menu.buildFromTemplate([{ label: '<Empty>', enabled: false }]))
 
   checkClipboardForChanges(clipboard, text => {
     stack = addToStack(text, stack)
     tray.setContextMenu(Menu.buildFromTemplate(formatMenuTemplateForStack(stack)))
   })
-
-
   createWindow()
 })
 
