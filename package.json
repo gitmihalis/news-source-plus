@@ -2,17 +2,17 @@
   "name": "source-plus-plus",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "electron src/main.js",
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "mihalis fthenos",
   "license": "Apache-2.0",
   "devDependencies": {
-    "electron": "^1.7.9"
-  },
-  "dependencies": {
+    "electron": "^1.7.9",
+    "html-minifier": "^3.5.7",
+    "clean-html": "^1.5.0",
     "mammoth": "^1.4.3"
   }
 }

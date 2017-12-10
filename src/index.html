@@ -7,26 +7,27 @@
   </head>
   <body>
     <header>
-      <h1>Source++</h1>
-      <button class="btn" id="open-docx">Open <strong>.docx</strong></button>
-      <button class="btn" id="copy-html">Copy <strong>Html</strong></button>
+      <div class="container">
+          <div class="brand">
+              <h1>News Source Plus</h1>
+          </div>
+
+          <a class="btn--inverse" id="open-docx">Open <strong>.docx</strong></a>
+          <a class="btn" id="copy-html">Copy <strong>Html</strong></a>
+          <a class="btn--inverse" id="minify">Minify</a>
+          <a class="btn" id="save">Save</a>
+      </div>
+
     </header>
     <main>
 
 
       <div class="container">
-        <p id="output"></p>
+        <code id="output">
+        </code>
       </div>
 
     </main>
-    <footer>
-      <p>
-        <!-- All of the Node.js APIs are available in this renderer process. -->
-        Using Node.js <script>document.write(process.versions.node)</script>,
-        Chromium <script>document.write(process.versions.chrome)</script>,
-        and Electron <script>document.write(process.versions.electron)</script>.
-      </p> 
-    </footer>
 
 
 

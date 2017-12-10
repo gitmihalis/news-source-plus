@@ -1,21 +1,36 @@
-@import url("https://fonts.googleapis.com/css?family=Barrio|Montserrat:700");
-
 body {
   padding: 10px 20px;
   background: rgb(40, 42, 54);
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Open Sans","Segoe UI", sans-serif;
 }
 
 h1 {
-  display: inline-block;
+  font-size: 24px;
+  width: 100%;
+  padding: 3px 10px;
+  border: 1px solid white;
+  margin-bottom: 2px;
+  position: relative;
+  top: -7px;
+  text-shadow: rgb(49, 67, 228) .05em .05em 0,
+  white .08em .08em 0;
 }
 
-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
+.brand {
+  text-align: center;
+  display: inline-block;
+  margin-right: 30px;
 }
+
+
+
+header {
+  padding: 6px 0;
+  border-bottom: 1px solid white;
+  margin-bottom: 10px;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -23,11 +38,20 @@ header {
 }
 
 .container {
-  margin: auto;
-  width: 100%;
-  min-height: 400px;
-  border-top: 1px solid #efefef;
-  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  overflow: hidden;
+}
+
+.copied {
+  transition: all .3s;
+  color: #6772e5;
+  text-shadow: 0 0 5px #000;
+}
+
+code {
+  padding: 5px;
 }
 
 #output {
@@ -35,63 +59,44 @@ header {
 }
 
 footer {
-  text-align: center;
-  font-size: .5em;
+  text-align: right;
+}
+#arrow {
+  font-size: 25px;
+  transform: rotate(-90deg);
+  display: inline-block;
+  background: rgba(0,0,0,.4);
+  padding: 3px 13px;
+  border-radius: 5px;
 }
 
-button {
-  margin: auto;
-  padding: 1rem;
+.btn, .btn--inverse {
+  margin: 10px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 14px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  color: #6772e5;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
   text-transform: uppercase;
-  color: #fafafa;
-  background: linear-gradient(45deg, #3bade3 0%, #576fe6 25%, #9844b7 51%, #ff357f 100%);
-  border: none;
-  border-radius: 3px;
-  box-shadow: 1px 1px 10px #111;
-  transition: .3s all ease;
-  letter-spacing: .1rem;
-  font-size: .85rem;
-  position: relative;
-  top: 0;
-  right: 0;
-  padding-left: 2.5rem;
-}
-button:after, button:before {
-  position: absolute;
-  font-family: 'Barrio', sans-serif;
-  font-weight: bold;
-  font-size: 1rem;
-  color: #006b34;
-  transition: .3s all ease;
-}
-button:before {
-  content: '_';
-  position: absolute;
-  left: 1.4rem;
-  top: .9rem;
-}
-button:after {
-  content: '>';
-  position: absolute;
-  left: .8rem;
-  top: 1rem;
-}
-button:hover {
-  box-shadow: 1px 1px 20px #111;
-  top: -.1rem;
-  right: -.1rem;
+  letter-spacing: .025em;
+  transition: all .15s ease;
   cursor: pointer;
 }
-button:hover:before {
-  content: '_';
-  position: absolute;
-  left: .8rem;
-  top: .7rem;
+.btn:hover, .btn--inverse:hover {
+  color: #7795f8;
   transform: translateY(-1px);
+  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
 }
-button:hover:after {
-  content: '>';
-  position: absolute;
-  left: 1.1rem;
-  top: 1rem;
+.btn--inverse {
+  color: #fff;
+  background: #6772e5;
 }
+.btn--inverse:hover {
+  color: #fff;
+  background-color: #7795f8;
+}
+

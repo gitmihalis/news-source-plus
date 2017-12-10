@@ -10,11 +10,12 @@ const dialog = electron.dialog
 // *************** Node API ****************
 const path = require('path')
 const url = require('url')
+const fs = require('fs')
 
 
 // *************** Vendor API **************
 const mammoth = require('mammoth')
-
+const cleaner = require('clean-html')
 
 
 
@@ -22,8 +23,6 @@ const mammoth = require('mammoth')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
-
-let docx
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -49,7 +48,11 @@ app.on('activate', function () {
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({
+    width: 800, 
+    height: 400,
+    resizable: true
+  })
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -57,11 +60,6 @@ function createWindow () {
     protocol: 'file:',
     slashes: true
   }))
-
-  mainWindow.webContents.openDevTools()
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -75,6 +73,19 @@ function createWindow () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+ipc.on('save:html', (event, html) => {
+  dialog.showSaveDialog(mainWindow, {
+    filters: [ {name: 'Html Files', extensions: ['html']} ],
+  }, filename => {
+    if(filename) {
+      fs.writeFileSync(filename, html, 'utf8')
+      event.sender.send('save:success')
+    } else {
+      event.sender.send('save:error')
+    }
+  })
+})
+
 // Once docx is opened, 
 ipc.on('open:docx', event => {
   dialog.showOpenDialog(mainWindow, {
@@ -85,12 +96,13 @@ ipc.on('open:docx', event => {
     properties: ['openFile', 'multiSelections']
   }, filepaths => {
     if (filepaths) {
-      // docx = filepaths[0]
-      // event.sender.send('docx:display', docx)
       mammoth.convertToHtml({path: filepaths[0]})
         .then( html => {
           const escaped = escapeHtml(html.value)
-          event.sender.send('docx:display', escaped)
+          cleaner.clean(escaped, { "remove-attributes": ['src']}, (cleaned, err) => {
+            if (err) event.sender.send('error!', err)
+            event.sender.send('docx:display', cleaned)
+          })
         })
     }
   })
