@@ -163,7 +163,6 @@ ipc.on('open:docx', event => {
 // Remove the special characters!
 function escapeHtml(string) {
   return string
-    .replace(/™/g, '&trade;')
     .replace(/À/g, '&Agrave;')
     .replace(/à/g, '&agrave;')
     .replace(/Â/g, '&Acirc;')
