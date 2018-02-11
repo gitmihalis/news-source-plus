@@ -7,8 +7,11 @@ The conversion escapes common *special characters* like *&trade;* and *&eacute;*
 
 To convert documents, just open a .docx file from within the app and copy or save the converted HTML code to `.html`.
 
+![alt text](https://github.com/gitmihalis/news-source-plus/blob/master/docs/demo-nsp.png)
+
 NSP also keeps recently copied items in a quick access menu accessable from the taskbar.
 
+![alt text](https://github.com/gitmihalis/news-source-plus/blob/master/docs/taskbar-nsp.png)
 
 
 
